@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.stream.Collectors;
 import java.io.File;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.nio.file.Path;
@@ -190,6 +191,80 @@ public class BlogController {
 
         // save the map back to the JSON file
         saveLikes(likesMap);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/admin/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) throws Exception {
+        // 1. Find the file using the filename (id)
+        Path filePath = Paths.get("src/main/resources/posts", id);
+        String markdown = Files.readString(filePath);
+
+        // 2. Extract just the raw body of the post (everything after the YAML)
+        String rawBody = markdown;
+        if (markdown.startsWith("---")) {
+            int endOfFrontMatter = markdown.indexOf("---", 3);
+            if (endOfFrontMatter != -1) {
+                rawBody = markdown.substring(endOfFrontMatter + 3).trim();
+            }
+        }
+
+        // 3. Parse the frontmatter to get the Title and Tags using your existing CommonMark setup
+        List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
+        Node document = parser.parse(markdown);
+        YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
+        document.accept(visitor);
+        Map<String, List<String>> metadata = visitor.getData();
+
+        String title = metadata != null && metadata.containsKey("title") ? metadata.get("title").get(0) : "";
+        String tags = "";
+        if (metadata != null && metadata.containsKey("tags")) {
+            tags = String.join(", ", metadata.get("tags")).replace("[", "").replace("]", "");
+        }
+
+        // 4. Send the extracted data to the HTML template
+        model.addAttribute("id", id);
+        model.addAttribute("title", title);
+        model.addAttribute("tags", tags);
+        model.addAttribute("content", rawBody);
+
+        return "edit";
+    }
+
+    @PostMapping("/admin/edit")
+    public String updatePost(@RequestParam String id,
+                             @RequestParam String title,
+                             @RequestParam String tags,
+                             @RequestParam String content) throws Exception {
+
+        Path filePath = Paths.get("src/main/resources/posts", id);
+        String oldMarkdown = Files.readString(filePath);
+        String dateStr = LocalDateTime.now().toString(); // Fallback if no date is found
+
+        // 1. Fetch the original date so editing doesn't ruin your timeline
+        List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
+        Node document = parser.parse(oldMarkdown);
+        YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
+        document.accept(visitor);
+        Map<String, List<String>> metadata = visitor.getData();
+
+        if (metadata != null && metadata.containsKey("date")) {
+            dateStr = metadata.get("date").get(0);
+        }
+
+        // 2. Rebuild the complete Markdown file
+        String updatedFileContent = "---\n" +
+                "title: " + title + "\n" +
+                "date: " + dateStr + "\n" +
+                "tags: [" + tags + "]\n" +
+                "---\n\n" +
+                content;
+
+        // 3. Overwrite the file on the hard drive
+        Files.writeString(filePath, updatedFileContent);
 
         return "redirect:/";
     }

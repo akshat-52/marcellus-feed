@@ -81,6 +81,11 @@
                 <i class="far fa-thumbs-up"></i> Like (<span th:text="${post.likes}">0</span>)
               </button>
             </form>
+
+            <!-- EDIT LINK -->
+            <a th:href="@{/admin/edit/{id}(id=${post.id})}" style="font-size: 11px; margin-left: 15px; color: #176093;">
+              <i class="far fa-edit"></i> Edit
+            </a>
           </div>
 
           <!-- The Markdown content rendered inside the thread -->
