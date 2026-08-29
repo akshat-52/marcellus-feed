@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>New Post - Marcellus</title>
+  <!-- Link to our global forum stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Specific styling for the forum input form */
+    .form-container { border: 1px solid #d3d3d3; background-color: #fdfdfd; padding: 15px; border-top: none; }
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 12px; color: #333; }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 6px 8px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus, textarea:focus { border-color: #4384b5; outline: none; }
+
+    textarea { height: 250px; resize: vertical; }
+
+    .btn-submit {
+      background-color: #2b7bb5;
+      color: #fff;
+      padding: 8px 15px;
+      font-weight: bold;
+      border: 1px solid #1a5682;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-submit:hover { background-color: #1a5682; }
+  </style>
+</head>
+<body>
+
+<!-- Top mini-bar -->
+<div class="top-bar">
+  <div class="top-bar-content">
+    <a href="#">Log in or Sign up</a>
+  </div>
+</div>
+
+<!-- Main Header -->
+<div class="header-area">
+  <div class="logo">
+    <i class="fas fa-chart-simple" style="color: #ff9900; margin-right: 5px;"></i> MARCELLUS
+  </div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search...">
+  </div>
+</div>
+
+<!-- Primary Dark Navbar -->
+<div class="nav-primary">
+  <a href="/">HOME</a>
+  <a href="#">FORUMS</a>
+  <a href="/admin" class="active">NEW POST (ADMIN)</a>
+  <a href="#">MEMBERS</a>
+  <a href="#">ABOUT</a>
+</div>
+
+<!-- Secondary Light Navbar -->
+<div class="nav-secondary">
+  <a href="#">SEARCH FORUMS</a>
+  <a href="#">RECENT POSTS</a>
+</div>
+
+<!-- Page Content -->
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/">Forums</a> &rsaquo; <strong>Create New Thread</strong>
+  </div>
+
+  <div class="category-header">
+    Create New Thread
+    <div class="category-sub">Post a new update to the Marcellus Feed</div>
+  </div>
+
+  <div class="form-container">
+    <!-- The form action matches our @PostMapping in Java -->
+    <form action="/admin/post" method="post">
+      <div class="form-group">
+        <label>Title:</label>
+        <input type="text" name="title" required placeholder="Enter thread title...">
+      </div>
+
+      <div class="form-group">
+        <label>Tags (comma separated):</label>
+        <!-- Pre-filled with some helpful developer placeholders -->
+        <input type="text" name="tags" placeholder="e.g., java, leetcode, thoughts">
+      </div>
+
+      <div class="form-group">
+        <label>Message (Markdown supported):</label>
+        <textarea name="content" required placeholder="Type your message here..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Post Thread</button>
+      <a href="/" style="margin-left: 15px; font-size: 12px; color: #666;">Cancel</a>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

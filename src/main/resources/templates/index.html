@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Marcellus</title>
+  <link rel="stylesheet" href="/style.css">
+  <!-- FontAwesome for the forum chat bubble icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Top mini-bar -->
+<div class="top-bar">
+  <div class="top-bar-content">
+    <a href="#">Log in or Sign up</a>
+  </div>
+</div>
+
+<!-- Main Header -->
+<div class="header-area">
+  <div class="logo">
+    <i class="fas fa-chart-simple" style="color: #ff9900; margin-right: 5px;"></i> MARCELLUS
+  </div>
+  <div class="search-bar">
+    <!-- Wrapping the input in a GET forum-->
+    <form action="/" method="get" style="margin: 0; padding: 0; ">
+      <input type="text" name="query" placeholder="Search...">
+    </form>
+  </div>
+</div>
+
+<!-- Primary Dark Navbar -->
+<div class="nav-primary">
+  <a href="/" class="active">HOME</a>
+  <a href="#">FORUMS</a>
+  <a href="/admin">NEW POST (ADMIN)</a>
+  <a href="#">MEMBERS</a>
+  <a href="#">ABOUT</a>
+</div>
+
+<!-- Secondary Light Navbar -->
+<div class="nav-secondary">
+  <a href="#">SEARCH FORUMS</a>
+  <a href="#">RECENT POSTS</a>
+</div>
+
+<!-- Page Content -->
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/">Forums</a> &rsaquo; <strong>Marcellus Feed</strong>
+  </div>
+
+  <div class="layout-container">
+    <!-- LEFT COLUMN: The Posts -->
+    <div class="main-content">
+      <div class="category-header">
+        Marcellus Discussions
+        <div class="category-sub">Discussions relating to Java development and algorithmic problem solving.</div>
+      </div>
+
+      <!-- Loop through posts like forum threads -->
+      <div class="thread-row" th:each="post : ${posts}">
+        <div class="thread-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <div class="thread-details">
+          <a href="#" class="thread-title" th:text="${post.title}">Post Title</a>
+          <div class="thread-meta">
+            Started by Admin &bull; Tags:
+            <span th:if="${post.tags != null}">
+                                <span th:each="tag, iterStat : ${post.tags}">
+                                    <a th:href="@{/(tag=${tag.trim()})}" th:text="${tag.trim()}"></a><span th:if="${!iterStat.last}">, </span>
+                                </span>
+                            </span>
+            <span th:if="${post.tags == null}">None</span>
+
+            <!-- NEW: The Like Button Form -->
+            <form action="/like" method="post" style="display: inline-block; margin-left: 15px;">
+              <input type="hidden" name="id" th:value="${post.id}">
+              <button type="submit" style="background: none; border: none; color: #176093; cursor: pointer; font-size: 11px; padding: 0;">
+                <i class="far fa-thumbs-up"></i> Like (<span th:text="${post.likes}">0</span>)
+              </button>
+            </form>
+          </div>
+
+          <!-- The Markdown content rendered inside the thread -->
+          <div class="thread-content" th:utext="${post.htmlContent}"></div>
+        </div>
+        <div class="thread-latest">
+          Latest: <a href="#" th:text="${post.title}">Title</a><br>
+          <span class="latest-date" th:text="${#temporals.format(post.date, 'MMM dd, yyyy - HH:mm')}">Date</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Sidebar -->
+    <div class="sidebar">
+      <a href="/admin" class="btn-signup">Post Update!</a>
+
+      <div class="sidebar-block">
+        <div class="sidebar-header">
+          Members Online Now
+          <i class="fas fa-circle" style="color: #5cb85c; font-size: 8px; margin-left: 4px; vertical-align: middle;"></i>
+        </div>
+        <div class="sidebar-content">
+          Total: 1 (members: 1, guests: 0)
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="sidebar-header">Forum Statistics</div>
+        <div class="sidebar-content" style="font-size: 11px;">
+          Discussions: <span style="float:right;">2,237</span><br>
+          Messages: <span style="float:right;">18,343</span><br>
+          Members: <span style="float:right;">1,564</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
