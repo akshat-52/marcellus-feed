@@ -268,4 +268,20 @@ public class BlogController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/admin/delete")
+    public String deletePost(@RequestParam String id) throws Exception {
+        // 1. Delete the physical Markdown file from the posts folder
+        Path filePath = Paths.get("src/main/resources/posts", id);
+        Files.deleteIfExists(filePath);
+
+        // 2. Clean up its entry in likes.json so orphaned data doesn't pile up
+        Map<String, Integer> likesMap = getLikes();
+        if (likesMap.containsKey(id)) {
+            likesMap.remove(id);
+            saveLikes(likesMap);
+        }
+
+        return "redirect:/";
+    }
 }

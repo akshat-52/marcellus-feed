@@ -74,18 +74,28 @@
                             </span>
             <span th:if="${post.tags == null}">None</span>
 
-            <!-- NEW: The Like Button Form -->
-            <form action="/like" method="post" style="display: inline-block; margin-left: 15px;">
-              <input type="hidden" name="id" th:value="${post.id}">
-              <button type="submit" style="background: none; border: none; color: #176093; cursor: pointer; font-size: 11px; padding: 0;">
-                <i class="far fa-thumbs-up"></i> Like (<span th:text="${post.likes}">0</span>)
-              </button>
-            </form>
+            <div class="post-actions">
+              <!-- NEW: The Like Button Form -->
+              <form action="/like" method="post" style="display: inline-block; margin-left: 15px;">
+                <input type="hidden" name="id" th:value="${post.id}">
+                <button type="submit" style="background: none; border: none; color: #176093; cursor: pointer; font-size: 11px; padding: 0;">
+                  <i class="far fa-thumbs-up"></i> Like (<span th:text="${post.likes}">0</span>)
+                </button>
+              </form>
 
-            <!-- EDIT LINK -->
-            <a th:href="@{/admin/edit/{id}(id=${post.id})}" style="font-size: 11px; margin-left: 15px; color: #176093;">
-              <i class="far fa-edit"></i> Edit
-            </a>
+              <!-- EDIT LINK -->
+              <a th:href="@{/admin/edit/{id}(id=${post.id})}" style="font-size: 11px; margin-left: 15px; color: #176093;">
+                <i class="far fa-edit"></i> Edit
+              </a>
+
+              <!-- DELETE BUTTON FORM -->
+              <form action="/admin/delete" method="post" style="display: inline-block; margin-left: 15px;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                <input type="hidden" name="id" th:value="${post.id}">
+                <button type="submit" style="background: none; border: none; color: #c9302c; cursor: pointer; font-size: 11px; padding: 0;">
+                  <i class="far fa-trash-alt"></i> Delete
+                </button>
+              </form>
+            </div>
           </div>
 
           <!-- The Markdown content rendered inside the thread -->
