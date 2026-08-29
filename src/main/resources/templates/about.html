@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Marcellus</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Top mini-bar -->
+<div class="top-bar">
+    <div class="top-bar-content">
+        <a href="#">Log in or Sign up</a>
+    </div>
+</div>
+
+<!-- Main Header -->
+<div class="header-area">
+    <div class="logo">
+        <i class="fas fa-chart-simple" style="color: #ff9900; margin-right: 5px;"></i> MARCELLUS
+    </div>
+    <div class="search-bar">
+        <form action="/" method="get" style="margin: 0; padding: 0;">
+            <input type="text" name="query" placeholder="Search...">
+        </form>
+    </div>
+</div>
+
+<!-- Primary Dark Navbar -->
+<div class="nav-primary">
+    <a href="/">HOME</a>
+    <a href="#">FORUMS</a>
+    <a href="/admin">NEW POST (ADMIN)</a>
+    <a href="#">MEMBERS</a>
+    <a href="/about" class="active">ABOUT</a>
+</div>
+
+<!-- Secondary Light Navbar -->
+<div class="nav-secondary">
+    <a href="#">SEARCH FORUMS</a>
+    <a href="#">RECENT POSTS</a>
+</div>
+
+<!-- Page Content -->
+<div class="page-wrapper">
+    <div class="breadcrumb">
+        <a href="/">Home</a> &rsaquo; <strong>About Marcellus</strong>
+    </div>
+
+    <div class="category-header">
+        About Marcellus
+        <div class="category-sub">A developer's knowledge base and algorithmic journey</div>
+    </div>
+
+    <div style="background: #fdfdfd; border: 1px solid #d3d3d3; border-top: none; padding: 20px; line-height: 1.6; font-size: 13px;">
+        <h3 style="color: #176093; margin-top: 0;"><i class="fas fa-code"></i> What is Marcellus?</h3>
+        <p>Marcellus is a lightweight, high-performance developer knowledge base and discussion engine built from scratch with Java and Spring Boot. Designed for engineers who prefer clean flat-file Markdown over bloated databases, it serves as a centralized hub for logging code snippets, documenting system architecture, and tracking algorithmic problem-solving milestones.</p>
+
+        <h3 style="color: #176093; margin-top: 20px;"><i class="fas fa-rocket"></i> Tech Stack</h3>
+        <ul style="padding-left: 20px; margin-bottom: 0;">
+            <li><strong>Backend:</strong> Java & Spring Boot</li>
+            <li><strong>Templating & Rendering:</strong> Thymeleaf & CommonMark (Markdown parser)</li>
+            <li><strong>Data Layer:</strong> Flat-file Markdown storage with JSON interaction counters</li>
+            <li><strong>Deployment:</strong> Continuous Deployment via Render & GitHub</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

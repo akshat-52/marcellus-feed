@@ -284,4 +284,9 @@ public class BlogController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
 }
