@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
     // Spring Boot automatically provides save(), findAll(), deleteById(), etc.
-    // We don't need to write a single line of code here!
+    // We don't need to write a single line of code here!!
 }
